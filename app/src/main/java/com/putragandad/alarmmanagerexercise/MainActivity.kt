@@ -17,120 +17,101 @@ import com.putragandad.alarmmanagerexercise.databinding.ActivityMainBinding
 import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding : ActivityMainBinding
-    private lateinit var picker : MaterialTimePicker
-    private lateinit var calendar: Calendar
+    private lateinit var timePicker: MaterialTimePicker
+    private lateinit var calendar : Calendar
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
+
         createNotificationChannel()
 
-        binding.btnSelectTime.setOnClickListener{
-
+        binding.btnSelectTime.setOnClickListener {
             showTimePicker()
-
         }
 
         binding.btnSetAlarm.setOnClickListener {
-
             setAlarm()
-
         }
 
         binding.btnCancelAlarm.setOnClickListener {
-
             cancelAlarm()
-
         }
-
     }
 
     private fun cancelAlarm() {
-
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this,AlarmReceiver::class.java)
+        val intent = Intent(this, AlarmReceiver::class.java)
 
         pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_MUTABLE)
 
         alarmManager.cancel(pendingIntent)
 
-        Toast.makeText(this, "Alarm Cancelled",Toast.LENGTH_LONG).show()
-
-    }
-
-    private fun setAlarm() {
-
-
-        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this,AlarmReceiver::class.java)
-
-        pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_MUTABLE)
-
-        alarmManager.setRepeating(
-
-            RTC_WAKEUP,calendar.timeInMillis,
-            INTERVAL_DAY,pendingIntent
-
-        )
-
-        Toast.makeText(this,"Alarm set Successfully",Toast.LENGTH_SHORT).show()
-
+        Toast.makeText(this, "Alarm cancelled", Toast.LENGTH_LONG).show()
     }
 
     private fun showTimePicker() {
-
-        picker = MaterialTimePicker.Builder()
+        timePicker = MaterialTimePicker.Builder()
             .setTimeFormat(TimeFormat.CLOCK_12H)
             .setHour(12)
             .setMinute(0)
             .setTitleText("Select Alarm Time")
             .build()
 
-        picker.show(supportFragmentManager, "alarmManagerExercise")
+        timePicker.show(supportFragmentManager, "alarmManagerExercise")
 
-        picker.addOnPositiveButtonClickListener{
-            if(picker.hour > 12){
+        timePicker.addOnPositiveButtonClickListener {
+            if (timePicker.hour > 12) {
                 binding.tvCurrentAlarmSet.text =
-                    String.format("%02d", picker.hour - 12) + " : " + String.format(
-                        "%02d",
-                        picker.minute
-                    ) + "PM"
+                    String.format("%02d", timePicker.hour - 12) + " : " +
+                            String.format("%02d", timePicker.minute) + " PM"
             } else {
-
-                String.format("%02d", picker.hour) + " : " + String.format(
-                    "%02d",
-                    picker.minute
-                ) + "AM"
+                binding.tvCurrentAlarmSet.text =
+                    String.format("%02d", timePicker.hour) + " : " +
+                            String.format("%02d", timePicker.minute) + " AM"
             }
 
             calendar = Calendar.getInstance()
-            calendar[Calendar.HOUR_OF_DAY] = picker.hour
-            calendar[Calendar.MINUTE] = picker.minute
+            calendar[Calendar.HOUR_OF_DAY] = timePicker.hour
+            calendar[Calendar.MINUTE] = timePicker.minute
             calendar[Calendar.SECOND] = 0
             calendar[Calendar.MILLISECOND] = 0
         }
-
     }
 
+    private fun setAlarm() {
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        val intent = Intent(this, AlarmReceiver::class.java)
+
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+        alarmManager.setRepeating(
+            RTC_WAKEUP, calendar.timeInMillis,
+            INTERVAL_DAY, pendingIntent
+        )
+
+        Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_LONG).show()
+    }
+
+
     private fun createNotificationChannel() {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
-            val name: CharSequence = "DewanggaReminderChannel"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name: CharSequence = "alarmManagerReminderChannel"
             val description = "Channel for Alarm Manager"
             val importance = NotificationManager.IMPORTANCE_HIGH
-            val channel = NotificationChannel("alarmExerciseChannel",name,importance)
+            val channel = NotificationChannel("alarmManagerExercise", name, importance)
             channel.description = description
             val notificationManager = getSystemService(
                 NotificationManager::class.java
             )
 
             notificationManager.createNotificationChannel(channel)
-        }
 
+        }
     }
 }
