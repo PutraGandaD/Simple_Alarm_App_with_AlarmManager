@@ -90,9 +90,8 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, AlarmReceiver::class.java)
 
         pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
-        alarmManager.setRepeating(
-            RTC_WAKEUP, calendar.timeInMillis,
-            INTERVAL_DAY, pendingIntent
+        alarmManager.setExactAndAllowWhileIdle(
+            RTC_WAKEUP, calendar.timeInMillis, pendingIntent
         )
 
         Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_LONG).show()
