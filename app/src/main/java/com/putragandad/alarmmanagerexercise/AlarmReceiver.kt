@@ -13,7 +13,7 @@ class AlarmReceiver : BroadcastReceiver() {
         intent!!.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         val pendingIntent = PendingIntent.getActivity(context, 0, i, 0)
 
-        val builder = NotificationCompat.Builder(context!!, "exercise")
+        val builder = NotificationCompat.Builder(context!!, "alarmManagerExercise")
             .setSmallIcon(R.drawable.ic_launcher_background)
             .setContentTitle("Simple Alarm App")
             .setContentText("Press to Stop")
