@@ -6,13 +6,79 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title="Simple Alarm App"
+            app:titleCentered="true"
+            android:background="#F3F0E0" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
     <TextView
+        android:id="@+id/tv_description_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="Your current alarm is set to :"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="250dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tv_current_alarm_set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9:41 PM"
+        android:textColor="@android:color/black"
+        android:textSize="50sp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_description_1" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_select_time"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Select Time"
+        android:layout_marginTop="24dp"
+        app:backgroundTint="#386a20"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_current_alarm_set" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_set_alarm"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Set Alarm"
+        app:backgroundTint="#386a20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_select_time" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel_alarm"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel Alarm"
+        app:backgroundTint="#386a20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_set_alarm" />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
