@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:text="Set Alarm 1"
         app:backgroundTint="#386a20"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -45,14 +45,24 @@
         app:layout_constraintTop_toBottomOf="@id/btn_set_alarm1" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_cancel_alarm"
+        android:id="@+id/btn_cancel_alarm1"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="Cancel All Alarm"
+        android:text="Disable Alarm 1"
         app:backgroundTint="#386a20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_set_alarm2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_cancel_alarm2"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Disable Alarm 2"
+        app:backgroundTint="#386a20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_cancel_alarm1" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
