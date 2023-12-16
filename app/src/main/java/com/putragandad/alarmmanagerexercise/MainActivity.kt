@@ -40,7 +40,13 @@ class MainActivity : AppCompatActivity() {
             setAlarm2("This is Alarm 2")
         }
 
+        binding.btnCancelAlarm1.setOnClickListener {
+            cancelAlarm1()
+        }
 
+        binding.btnCancelAlarm2.setOnClickListener {
+            cancelAlarm2()
+        }
     }
 
     private fun cancelAlarm1() {
