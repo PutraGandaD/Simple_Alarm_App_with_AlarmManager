@@ -1,6 +1,9 @@
 # Simple Alarm App
-Simple Alarm App, utilizing AlarmManager, BroadcastReceiver, NotificationChannel.
+Simple Alarm App, utilizing AlarmManager, BroadcastReceiver, NotificationChannel.\
 UI using Material Design 3 by Google.
+
+**This branch, main, only included the example of hwo to set AlarmManager with user's input time value.**\
+**To see example for how to set AlarmManager with pre-set/hardcoded time value, see the hardcode branch [here](https://github.com/PutraGandaD/Simple_Alarm_App_with_AlarmManager/tree/hardcode "Hardcode branch")**
 
 ![Untitled design](https://github.com/PutraGandaD/Simple_Alarm_App_with_AlarmManager/assets/54593964/41fa1dcb-8a94-40c9-a860-fa2a1cb229f9)
 
