@@ -50,13 +50,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun cancelAlarm1() {
-        alarmManagerIntent1.cancel()
-        Toast.makeText(this, "Alarm 1 now has been disabled", Toast.LENGTH_LONG).show()
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        if(this::alarmManagerIntent1.isInitialized) {
+            alarmManagerIntent1.cancel()
+            Toast.makeText(this, "Alarm 1 now has been disabled", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(this, "Can't disable. You haven't set Alarm 1 yet.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun cancelAlarm2() {
-        alarmManagerIntent2.cancel()
-        Toast.makeText(this, "Alarm 2 now has been disabled", Toast.LENGTH_LONG).show()
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        if(this::alarmManagerIntent2.isInitialized) {
+            alarmManagerIntent2.cancel()
+            Toast.makeText(this, "Alarm 2 now has been disabled", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Can't disable. You haven't set Alarm 2 yet.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setAlarm1(alarmNotificationText: String) {
@@ -77,7 +89,7 @@ class MainActivity : AppCompatActivity() {
             alarmManagerIntent1
         )
 
-        Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_SHORT).show()
     }
 
     private fun setAlarm2(alarmNotificationText: String) {
@@ -98,7 +110,7 @@ class MainActivity : AppCompatActivity() {
             alarmManagerIntent2
         )
 
-        Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_SHORT).show()
     }
 
     private fun getAlarmIntent(notificationContent: String) : PendingIntent {
