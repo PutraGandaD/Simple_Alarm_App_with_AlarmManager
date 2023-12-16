@@ -10,6 +10,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -87,17 +88,47 @@ class MainActivity : AppCompatActivity() {
 
     private fun setAlarm() {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        val intent = Intent(this, AlarmReceiver::class.java)
+//        val intent = Intent(this, AlarmReceiver::class.java)
 
-        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+//        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+
+        val alarmManager1 = getAlarmIntent(1)
+        val alarmManager2 = getAlarmIntent(2)
+
+        val calendar1: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 14)
+            set(Calendar.MINUTE, 5)
+        }
+
+        val calendar2: Calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 14)
+            set(Calendar.MINUTE, 10)
+        }
+
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            calendar.timeInMillis,
-            AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-            pendingIntent
+            calendar1.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            alarmManager1
+        )
+
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar2.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            alarmManager2
         )
 
         Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_LONG).show()
+        Log.d("AlarmManagerExercise", "Alarm 1 Intent: $alarmManager1")
+        Log.d("AlarmManagerExercise", "Alarm 2 Intent: $alarmManager2")
+    }
+
+    private fun getAlarmIntent(requestCode: Int) : PendingIntent {
+        val intent = Intent(this, AlarmReceiver::class.java)
+        return PendingIntent.getBroadcast(this, requestCode, intent, PendingIntent.FLAG_MUTABLE)
     }
 
 
