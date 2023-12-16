@@ -16,68 +16,43 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="Simple Alarm App"
+            app:title="Simple Alarm App (Hardcode)"
             app:titleCentered="true"
             android:background="#F3F0E0" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:id="@+id/tv_description_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your current alarm is set to :"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="250dp"
-        android:textColor="@android:color/black"
-        android:textSize="18sp"/>
-
-    <TextView
-        android:id="@+id/tv_current_alarm_set"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="9:41 PM"
-        android:textColor="@android:color/black"
-        android:textSize="50sp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_description_1" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_select_time"
+        android:id="@+id/btn_set_alarm1"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="Select Time"
+        android:text="Set Alarm 1"
         app:backgroundTint="#386a20"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="320dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_current_alarm_set" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_set_alarm"
+        android:id="@+id/btn_set_alarm2"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="Set Alarm"
+        android:text="Set Alarm 2"
         app:backgroundTint="#386a20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_select_time" />
+        app:layout_constraintTop_toBottomOf="@id/btn_set_alarm1" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_cancel_alarm"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
-        android:text="Cancel Alarm"
+        android:text="Cancel All Alarm"
         app:backgroundTint="#386a20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_set_alarm" />
-
-
+        app:layout_constraintTop_toBottomOf="@id/btn_set_alarm2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

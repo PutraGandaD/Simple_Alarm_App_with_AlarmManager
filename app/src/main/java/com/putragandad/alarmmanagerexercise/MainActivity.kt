@@ -16,29 +16,26 @@ import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.putragandad.alarmmanagerexercise.databinding.ActivityMainBinding
 import java.util.Calendar
+import java.util.UUID
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
-    private lateinit var timePicker: MaterialTimePicker
-    private lateinit var calendar : Calendar
     private lateinit var alarmManager: AlarmManager
     private lateinit var pendingIntent: PendingIntent
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         createNotificationChannel()
 
-        binding.btnSelectTime.setOnClickListener {
-            showTimePicker()
+        binding.btnSetAlarm1.setOnClickListener {
+            setAlarm1("This is Alarm 1")
         }
 
-        binding.btnSetAlarm.setOnClickListener {
-            setAlarm()
+        binding.btnSetAlarm2.setOnClickListener {
+            setAlarm2("This is Alarm 2")
         }
 
         binding.btnCancelAlarm.setOnClickListener {
@@ -50,58 +47,40 @@ class MainActivity : AppCompatActivity() {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, AlarmReceiver::class.java)
 
-        pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_MUTABLE)
+        pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_UPDATE_CURRENT)
 
         alarmManager.cancel(pendingIntent)
 
         Toast.makeText(this, "Alarm cancelled", Toast.LENGTH_LONG).show()
     }
 
-    private fun showTimePicker() {
-        timePicker = MaterialTimePicker.Builder()
-            .setTimeFormat(TimeFormat.CLOCK_12H)
-            .setHour(12)
-            .setMinute(0)
-            .setTitleText("Select Alarm Time")
-            .build()
-
-        timePicker.show(supportFragmentManager, "alarmManagerExercise")
-
-        timePicker.addOnPositiveButtonClickListener {
-            if (timePicker.hour > 12) {
-                binding.tvCurrentAlarmSet.text =
-                    String.format("%02d", timePicker.hour - 12) + " : " +
-                            String.format("%02d", timePicker.minute) + " PM"
-            } else {
-                binding.tvCurrentAlarmSet.text =
-                    String.format("%02d", timePicker.hour) + " : " +
-                            String.format("%02d", timePicker.minute) + " AM"
-            }
-
-            calendar = Calendar.getInstance()
-            calendar[Calendar.HOUR_OF_DAY] = timePicker.hour
-            calendar[Calendar.MINUTE] = timePicker.minute
-            calendar[Calendar.SECOND] = 0
-            calendar[Calendar.MILLISECOND] = 0
-        }
-    }
-
-    private fun setAlarm() {
+    private fun setAlarm1(alarmNotificationText: String) {
         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-//        val intent = Intent(this, AlarmReceiver::class.java)
 
-//        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_MUTABLE)
+        val alarmManagerIntent = getAlarmIntent(alarmNotificationText)
 
-        val alarmManager1 = getAlarmIntent(1)
-        val alarmManager2 = getAlarmIntent(2)
-
-        val calendar1: Calendar = Calendar.getInstance().apply {
+        val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 14)
             set(Calendar.MINUTE, 5)
         }
 
-        val calendar2: Calendar = Calendar.getInstance().apply {
+        alarmManager.setInexactRepeating(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            AlarmManager.INTERVAL_DAY,
+            alarmManagerIntent
+        )
+
+        Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_LONG).show()
+    }
+
+    private fun setAlarm2(alarmNotificationText: String) {
+        alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        val alarmManagerIntent = getAlarmIntent(alarmNotificationText)
+
+        val calendar: Calendar = Calendar.getInstance().apply {
             timeInMillis = System.currentTimeMillis()
             set(Calendar.HOUR_OF_DAY, 14)
             set(Calendar.MINUTE, 10)
@@ -109,28 +88,20 @@ class MainActivity : AppCompatActivity() {
 
         alarmManager.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            calendar1.timeInMillis,
+            calendar.timeInMillis,
             AlarmManager.INTERVAL_DAY,
-            alarmManager1
-        )
-
-        alarmManager.setInexactRepeating(
-            AlarmManager.RTC_WAKEUP,
-            calendar2.timeInMillis,
-            AlarmManager.INTERVAL_DAY,
-            alarmManager2
+            alarmManagerIntent
         )
 
         Toast.makeText(this, "Alarm set successfullly", Toast.LENGTH_LONG).show()
-        Log.d("AlarmManagerExercise", "Alarm 1 Intent: $alarmManager1")
-        Log.d("AlarmManagerExercise", "Alarm 2 Intent: $alarmManager2")
     }
 
-    private fun getAlarmIntent(requestCode: Int) : PendingIntent {
-        val intent = Intent(this, AlarmReceiver::class.java)
-        return PendingIntent.getBroadcast(this, requestCode, intent, PendingIntent.FLAG_MUTABLE)
+    private fun getAlarmIntent(notificationContent: String) : PendingIntent {
+        val intent = Intent(this, AlarmReceiver::class.java).apply {
+            putExtra("customText", notificationContent)
+        }
+        return PendingIntent.getBroadcast(this, UUID.randomUUID().hashCode(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
-
 
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
